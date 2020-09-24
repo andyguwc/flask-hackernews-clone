@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired
 
-from flask_hackernews_clone.user.models import User
+from flask_hackernews_clone.blueprints.user.models import User
 
 
 class LoginForm(FlaskForm):

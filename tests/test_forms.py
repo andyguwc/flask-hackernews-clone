@@ -2,7 +2,7 @@
 """Test forms."""
 
 from flask_hackernews_clone.public.forms import LoginForm
-from flask_hackernews_clone.user.forms import RegisterForm
+from flask_hackernews_clone.blueprints.user.forms import RegisterForm
 
 
 class TestRegisterForm:

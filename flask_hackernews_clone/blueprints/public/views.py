@@ -12,12 +12,12 @@ from flask import (
 from flask_login import login_required, login_user, logout_user
 
 from flask_hackernews_clone.extensions import login_manager
-from flask_hackernews_clone.public.forms import LoginForm
-from flask_hackernews_clone.user.forms import RegisterForm
-from flask_hackernews_clone.user.models import User
+from flask_hackernews_clone.blueprints.public.forms import LoginForm
+from flask_hackernews_clone.blueprints.user.forms import RegisterForm
+from flask_hackernews_clone.blueprints.user.models import User
 from flask_hackernews_clone.utils import flash_errors
 
-blueprint = Blueprint("public", __name__, static_folder="../static")
+blueprint = Blueprint("public", __name__, static_folder="static")
 
 
 @login_manager.user_loader

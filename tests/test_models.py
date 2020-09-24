@@ -4,7 +4,7 @@ import datetime as dt
 
 import pytest
 
-from flask_hackernews_clone.user.models import Role, User
+from flask_hackernews_clone.blueprints.user.models import Role, User
 
 from .factories import UserFactory
 

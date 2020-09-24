@@ -41,6 +41,7 @@ class Model(CRUDMixin, db.Model):
 
     __abstract__ = True
 
+
 class PkModel(Model):
     """Base model class that includes CRUD convenience methods, plus adds a 'primary key' column named ``id``"""
 

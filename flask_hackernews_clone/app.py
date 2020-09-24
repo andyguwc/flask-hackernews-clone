@@ -5,7 +5,8 @@ import sys
 
 from flask import Flask, render_template
 
-from flask_hackernews_clone import commands, public, user
+from flask_hackernews_clone import commands
+from flask_hackernews_clone.blueprints import public, user
 from flask_hackernews_clone.extensions import (
     bcrypt,
     cache,

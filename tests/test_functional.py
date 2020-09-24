@@ -5,7 +5,7 @@ See: http://webtest.readthedocs.org/
 """
 from flask import url_for
 
-from flask_hackernews_clone.user.models import User
+from flask_hackernews_clone.blueprints.user.models import User
 
 from .factories import UserFactory
 

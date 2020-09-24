@@ -43,3 +43,7 @@ class RegisterForm(FlaskForm):
             self.email.errors.append("Email already registered")
             return False
         return True
+
+
+class EditProfileForm(FlaskForm):
+    pass

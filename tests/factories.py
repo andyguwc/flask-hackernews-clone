@@ -4,7 +4,7 @@ from factory import PostGenerationMethodCall, Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
 from flask_hackernews_clone.database import db
-from flask_hackernews_clone.user.models import User
+from flask_hackernews_clone.blueprints.user.models import User
 
 
 class BaseFactory(SQLAlchemyModelFactory):
