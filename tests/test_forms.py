@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test forms."""
 
-from flask_hackernews_clone.public.forms import LoginForm
-from flask_hackernews_clone.blueprints.user.forms import RegisterForm
+from flask_hackernews_clone.blueprints.public.forms import LoginForm, RegisterForm
 
 
 class TestRegisterForm:

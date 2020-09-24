@@ -60,6 +60,7 @@ class PkModel(Model):
             return cls.query.get(int(record_id))
         return None
 
+
 def reference_col(
     tablename, nullable=False, pk_name="id", foreign_key_kwargs=None, column_kwargs=None
 ):

@@ -23,3 +23,9 @@ migratedb:
 
 upgradedb:
 	@docker-compose run --rm manage db upgrade
+
+test:
+	@docker-compose run --rm manage test
+
+lint:
+	@docker-compose run --rm manage lint
