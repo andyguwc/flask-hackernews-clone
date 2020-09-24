@@ -8,9 +8,21 @@ x-default-volumes: &default_volumes
   volumes:
     - ./:/app
     - node-modules:/app/node_modules
-    - ./dev.db:/tmp/dev.db
 
 services:
+  database:
+    image: postgres:10.6
+    ports:
+      - '5433:5432'
+    environment:
+      - POSTGRES_USER=hacker
+      - POSTGRES_PASSWORD=hacker
+      - POSTGRES_DB=hacker
+    volumes:
+      - hackerdb:/var/lib/postgresql/data
+    networks:
+      - hacker
+
   flask-dev:
     build:
       context: .
@@ -21,7 +33,12 @@ services:
     ports:
       - "5000:5000"
       - "2992:2992"
+    depends_on:
+      - database
+    networks:
+      - hacker
     <<: *default_volumes
+
 
   flask-prod:
     build:
@@ -49,9 +66,17 @@ services:
     image: "flask_hackernews_clone-manage"
     stdin_open: true
     tty: true
+    depends_on:
+      - database
+    networks:
+      - hacker
     <<: *default_volumes
 
 volumes:
   node-modules:
   static-build:
-  dev-db:
+  hackerdb:
+
+networks:
+  hacker:
+    driver: bridge
