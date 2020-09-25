@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """User forms."""
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField
+from wtforms import PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 from .models import User
 
 
 class EditProfileForm(FlaskForm):
-    def __init__(self, *args, **kwargs):
-        """Create instance."""
-        super(RegisterForm, self).__init__(*args, **kwargs)
-        self.user = None
+    first_name = StringField("First name", validators=[Length(0, 30)])
+    last_name = StringField("Last name", validators=[Length(0, 30)])
+    about = TextAreaField("About me")
+    submit = SubmitField("Submit")

@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-narrow">
+    <h1 class="mt-5">Edit Profile</h1>
+        <br/>
+        <form id="editProfileForm" class="form form-register" method="POST" action="" role="form">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{form.first_name.label}}
+                {{form.first_name(placeholder="First name", class_="form-control")}}
+            </div>
+            <div class="form-group">
+                {{form.last_name.label}}
+                {{form.last_name(placeholder="Last name", class_="form-control")}}
+            </div>
+            <div class="form-group">
+                {{form.about.label}}
+                {{form.about(placeholder="About me", class_="form-control")}}
+            </div>
+
+            <div class="submit-button">
+            {{ form.submit() }}
+            </div>
+            <!-- <p><input class="btn btn-primary" type="submit" value="Submit"></p> -->
+        </form>
+</div>
+{% endblock %}
