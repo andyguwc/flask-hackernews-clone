@@ -9,9 +9,10 @@ from flask import (
     request,
     url_for,
 )
-from flask_login import login_required, login_user, logout_user
+from flask_login import current_user, login_required, login_user
 
-from flask_hackernews_clone.blueprints.main.forms import LoginForm, RegisterForm
+from flask_hackernews_clone.blueprints.main.forms import LoginForm, EditPostForm, PostForm
+from flask_hackernews_clone.blueprints.main.models import Post
 from flask_hackernews_clone.blueprints.user.models import User
 from flask_hackernews_clone.extensions import login_manager
 from flask_hackernews_clone.utils import flash_errors
@@ -27,15 +28,18 @@ def load_user(user_id):
 
 @blueprint.route("/", methods=["GET", "POST"])
 def home():
-    """Home page."""
-    form = LoginForm(request.form)
+    """
+    Home page.
+    Note user log in is also handled here
+    """
+    form = LoginForm()
     current_app.logger.info("Hello from the home page!")
     # Handle logging in
     if request.method == "POST":
         if form.validate_on_submit():
             login_user(form.user)
             flash("You are logged in.", "success")
-            redirect_url = request.args.get("next") or url_for("user.members")
+            redirect_url = request.args.get("next") or url_for("user.user_home")
             return redirect(redirect_url)
         else:
             flash_errors(form)
@@ -43,6 +47,14 @@ def home():
 
 
 @blueprint.route("/create", methods=["GET", "POST"])
+@login_required
 def create_post():
     """Create new post."""
-    return render_template("main/create_post.html")
+    form = PostForm()
+    if form.validate_on_submit():
+        Post.create(title=form.title.data,
+                    body=form.body.data,
+                    author=current_user._get_current_object())
+        flash("You just posted!", "success")
+        return redirect(url_for("user.user_home", username=current_user.username))
+    return render_template("main/create_post.html", form=form)

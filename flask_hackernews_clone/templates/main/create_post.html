@@ -1,12 +1,21 @@
-
 {% extends "layout.html" %}
-
 {% block content %}
-<div class="container">
-    <h1 class="mt-5">Create New Post</h1>
-    <div class="row">
-      <p class="lead">Create a New Post</p>
-    </div>
+<div class="container-narrow">
+  <h1 class="mt-5">Create a New Post</h1>
+    <br/>
+    <form id="postForm" class="form form-register" method="POST" action="" role="form">
+           {{ form.csrf_token }}
+            <div class="form-group">
+                {{form.title.label}}
+                {{form.title(placeholder="Title", class_="form-control")}}
+            </div>
+            <div class="form-group">
+                {{form.body.label}}
+                {{form.body(placeholder="Write something...", class_="form-control")}}
+            </div>
+            <p>{{ form.submit() }}</p>
+
+            <!-- <p><input class="btn btn-primary" type="submit" value="Register"></p> -->
+    </form>
 </div>
 {% endblock %}
-

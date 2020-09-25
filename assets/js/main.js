@@ -19,3 +19,5 @@ require.context(
 // Your own code
 require('./plugins.js');
 require('./script.js');
+
+$(".alert").fadeOut(3000);

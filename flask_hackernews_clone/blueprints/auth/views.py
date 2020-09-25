@@ -9,20 +9,13 @@ from flask import (
     request,
     url_for,
 )
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, logout_user
 
-from flask_hackernews_clone.blueprints.auth.forms import LoginForm, RegisterForm
+from flask_hackernews_clone.blueprints.auth.forms import RegisterForm
 from flask_hackernews_clone.blueprints.user.models import User
-from flask_hackernews_clone.extensions import login_manager
 from flask_hackernews_clone.utils import flash_errors
 
 blueprint = Blueprint("auth", __name__, static_folder="static")
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    """Load user by ID."""
-    return User.get_by_id(int(user_id))
 
 
 @blueprint.route("/logout/")

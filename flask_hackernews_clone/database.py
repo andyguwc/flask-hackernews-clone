@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Database module, including the SQLAlchemy database object and DB-related utilities."""
+import datetime as dt
+
 from .compat import basestring
 from .extensions import db
 
@@ -40,6 +42,11 @@ class Model(CRUDMixin, db.Model):
     """Base model class that includes CRUD convenience methods."""
 
     __abstract__ = True
+
+    created_at = Column(db.DateTime, index=True, default=dt.datetime.utcnow)
+    updated_at = Column(
+        db.DateTime, default=dt.datetime.utcnow, onupdate=dt.datetime.utcnow
+    )
 
 
 class PkModel(Model):
