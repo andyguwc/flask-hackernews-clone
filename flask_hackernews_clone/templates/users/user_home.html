@@ -1,9 +1,9 @@
 
-{% extends "layout.html" %}
+{% extends "base/layout.html" %}
 {% block content %}
     <div class="container">
-        <h1>Here are your posts {{ current_user.username }}</h1>
-        <h3>{{ posts | length }}</h3>
+        <h2>My Posts</h2>
     </div>
+{% include "base/posts.html" %}
 {% endblock %}
 

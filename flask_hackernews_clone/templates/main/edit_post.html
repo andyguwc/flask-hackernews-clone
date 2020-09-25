@@ -1,7 +1,7 @@
 {% extends "base/layout.html" %}
 {% block content %}
 <div class="container-narrow">
-  <h2 class="mt-5">Create a New Post</h2>
+  <h2 class="mt-5">Edit Your Post</h2>
     <br/>
     <form id="postForm" class="form form-register" method="POST" action="" role="form">
            {{ form.csrf_token }}
@@ -14,8 +14,6 @@
                 {{form.body(placeholder="Write something...", class_="form-control")}}
             </div>
             <p>{{ form.submit() }}</p>
-
-            <!-- <p><input class="btn btn-primary" type="submit" value="Register"></p> -->
     </form>
 </div>
 {% endblock %}

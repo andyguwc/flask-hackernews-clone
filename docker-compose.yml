@@ -56,21 +56,21 @@ services:
       GUNICORN_WORKERS: 4
     <<: *default_volumes
 
-  manage:
-    build:
-      context: .
-      target: manage
-    environment:
-      FLASK_ENV: production
-      FLASK_DEBUG: 0
-    image: "flask_hackernews_clone-manage"
-    stdin_open: true
-    tty: true
-    depends_on:
-      - database
-    networks:
-      - hacker
-    <<: *default_volumes
+  # manage:
+  #   build:
+  #     context: .
+  #     target: manage
+  #   environment:
+  #     FLASK_ENV: production
+  #     FLASK_DEBUG: 0
+  #   image: "flask_hackernews_clone-manage"
+  #   stdin_open: true
+  #   tty: true
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - hacker
+  #   <<: *default_volumes
 
 volumes:
   node-modules:

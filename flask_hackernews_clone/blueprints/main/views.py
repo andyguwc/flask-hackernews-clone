@@ -8,10 +8,15 @@ from flask import (
     render_template,
     request,
     url_for,
+    abort,
 )
 from flask_login import current_user, login_required, login_user
 
-from flask_hackernews_clone.blueprints.main.forms import LoginForm, EditPostForm, PostForm
+from flask_hackernews_clone.blueprints.main.forms import (
+    EditPostForm,
+    LoginForm,
+    PostForm,
+)
 from flask_hackernews_clone.blueprints.main.models import Post
 from flask_hackernews_clone.blueprints.user.models import User
 from flask_hackernews_clone.extensions import login_manager
@@ -39,11 +44,20 @@ def home():
         if form.validate_on_submit():
             login_user(form.user)
             flash("You are logged in.", "success")
-            redirect_url = request.args.get("next") or url_for("user.user_home")
+            redirect_url = request.args.get("next") or url_for(
+                "user.user_home", username=current_user.username
+            )
             return redirect(redirect_url)
         else:
             flash_errors(form)
-    return render_template("main/home.html", form=form)
+    page = request.args.get("page", 1, type=int)
+    pagination = Post.query.order_by(Post.created_at.desc()).paginate(
+        page, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False
+    )
+    posts = pagination.items
+    return render_template(
+        "main/home.html", form=form, posts=posts, pagination=pagination
+    )
 
 
 @blueprint.route("/create", methods=["GET", "POST"])
@@ -52,9 +66,39 @@ def create_post():
     """Create new post."""
     form = PostForm()
     if form.validate_on_submit():
-        Post.create(title=form.title.data,
-                    body=form.body.data,
-                    author=current_user._get_current_object())
+        Post.create(
+            title=form.title.data,
+            body=form.body.data,
+            author=current_user._get_current_object(),
+        )
         flash("You just posted!", "success")
         return redirect(url_for("user.user_home", username=current_user.username))
     return render_template("main/create_post.html", form=form)
+
+@blueprint.route("/post/<int:id>")
+def post(id):
+    """View a post by id
+    """
+    post = Post.query.get_or_404(id)
+    return render_template("main/home.html", posts=[post])
+
+@blueprint.route("/edit/<int:id>", methods=["GET", "POST"])
+@login_required
+def edit(id):
+    """Edit a post by id
+    """
+    post = Post.query.get_or_404(id)
+    if current_user != post.author:
+        abort(403)
+    form = EditPostForm()
+    if form.validate_on_submit():
+        post.update(
+            title=form.title.data,
+            body=form.body.data,
+        )
+        flash("Your post has been updated", "success")
+        return redirect(url_for("main.post", id=post.id))
+    form.title.data = post.title
+    form.body.data = post.body
+    return render_template("main/edit_post.html", form=form)
+    

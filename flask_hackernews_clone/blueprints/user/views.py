@@ -3,9 +3,9 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
+from flask_hackernews_clone.blueprints.main.models import Post
 from flask_hackernews_clone.blueprints.user.forms import EditProfileForm
-from flask_hackernews_clone.blueprints.user.models import User 
-from flask_hackernews_clone.blueprints.main.models import Post 
+from flask_hackernews_clone.blueprints.user.models import User
 
 blueprint = Blueprint("user", __name__, url_prefix="/users", static_folder="static")
 
