@@ -43,6 +43,9 @@ Flask-DebugToolbar = "==0.11.0"
 # Environment variable parsing
 environs = "==8.0.0"
 
+# Add Elasticsearch for text search
+elasticsearch = "==7.9.1"
+
 [dev-packages]
 # Testing
 pytest = "==6.0.2"

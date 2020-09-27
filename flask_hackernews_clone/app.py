@@ -17,7 +17,7 @@ from flask_hackernews_clone.extensions import (
     login_manager,
     migrate,
 )
-
+from elasticsearch import Elasticsearch
 
 def create_app(config_object="flask_hackernews_clone.settings"):
     """Create application factory, as explained here: http://flask.pocoo.org/docs/patterns/appfactories/.
@@ -32,6 +32,11 @@ def create_app(config_object="flask_hackernews_clone.settings"):
     register_shellcontext(app)
     register_commands(app)
     configure_logger(app)
+
+    # attach an Elasticsearch instance to the app
+    # since it's not wrapped by a Flask extension
+    app.elasticsearch = Elasticsearch([app.config["ELASTICSEARCH_URL"]]) \
+        if app.config["ELASTICSEARCH_URL"] else None
     return app
 
 
@@ -77,7 +82,11 @@ def register_shellcontext(app):
 
     def shell_context():
         """Shell context objects."""
-        return {"db": db, "User": user.models.User}
+        return {
+            "db": db, 
+            "User": user.models.User, 
+            "Post": main.models.Post,
+        }
 
     app.shell_context_processor(shell_context)
 

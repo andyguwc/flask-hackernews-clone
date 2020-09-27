@@ -1,0 +1,27 @@
+
+{% extends "base/layout.html" %}
+{% import "macros/pagination.html" as macros %}
+{% block content %}
+
+{% include "base/posts.html" %}
+
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li{% if not prev_url %} class="page-item disabled" {% else %} class="page-item" {% endif %}>
+            <a class="page-link noborder" href="{{ prev_url or '#' }}">
+                <span aria-hidden="true">&larr;</span>
+                <span class="sr-only">Previous</span>
+                Previous results
+            </a>
+        </li>
+        <li{% if not next_url %} class="page-item disabled" {% else %} class="page-item" {% endif %}>
+            <a class="page-link noborder" href="{{ next_url or '#' }}">
+                Next results
+                <span class="sr-only">Previous</span>
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+{% endblock %}

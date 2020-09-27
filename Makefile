@@ -1,8 +1,8 @@
 start:
-	@docker-compose up -d database flask-dev
+	@docker-compose up -d database flask-dev elastic
 
 rebuild:
-	@docker-compose up -d --build database flask-dev
+	@docker-compose up -d --build database flask-dev elastic
 
 stop:
 	@docker-compose down

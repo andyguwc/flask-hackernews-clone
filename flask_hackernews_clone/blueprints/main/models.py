@@ -4,6 +4,7 @@ import datetime as dt
 
 from flask_hackernews_clone.database import (
     Column,
+    SearchableMixin,
     PkModel,
     db,
     reference_col,
@@ -12,8 +13,9 @@ from flask_hackernews_clone.database import (
 from flask_hackernews_clone.extensions import bcrypt
 
 
-class Post(PkModel):
+class Post(SearchableMixin, PkModel):
     """Post"""
+    __searchable__ = ["body"]
 
     __tablename__ = "posts"
     title = Column(db.String(80))

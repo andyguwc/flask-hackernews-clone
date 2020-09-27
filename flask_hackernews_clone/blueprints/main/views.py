@@ -9,6 +9,7 @@ from flask import (
     request,
     url_for,
     abort,
+    g
 )
 from flask_login import current_user, login_required, login_user
 
@@ -21,6 +22,7 @@ from flask_hackernews_clone.blueprints.main.models import Post
 from flask_hackernews_clone.blueprints.user.models import User
 from flask_hackernews_clone.extensions import login_manager
 from flask_hackernews_clone.utils import flash_errors
+from flask_hackernews_clone.search.forms import SearchForm
 
 blueprint = Blueprint("main", __name__, static_folder="static")
 
@@ -29,6 +31,14 @@ blueprint = Blueprint("main", __name__, static_folder="static")
 def load_user(user_id):
     """Load user by ID."""
     return User.get_by_id(int(user_id))
+
+
+@blueprint.before_app_request
+def before_request():
+    """Make SearchForm available on all pages
+    """
+    if current_user.is_authenticated:
+        g.search_form = SearchForm()
 
 
 @blueprint.route("/", methods=["GET", "POST"])
@@ -75,12 +85,14 @@ def create_post():
         return redirect(url_for("user.user_home", username=current_user.username))
     return render_template("main/create_post.html", form=form)
 
+
 @blueprint.route("/post/<int:id>")
 def post(id):
     """View a post by id
     """
     post = Post.query.get_or_404(id)
     return render_template("main/home.html", posts=[post])
+
 
 @blueprint.route("/edit/<int:id>", methods=["GET", "POST"])
 @login_required
@@ -102,3 +114,19 @@ def edit(id):
     form.body.data = post.body
     return render_template("main/edit_post.html", form=form)
     
+
+@blueprint.route("/search")
+@login_required
+def search():
+    """Search for posts
+    """
+    if not g.search_form.validate():
+        return redirect(url_for("main.home"))
+    page = request.args.get("page", 1, type=int)
+    posts, total = Post.search(g.search_form.q.data, page, current_app.config["POSTS_PER_PAGE"])
+    next_url = url_for("main.search", q=g.search_form.q.data, page=page + 1) \
+        if total > page * current_app.config["POSTS_PER_PAGE"] else None
+    prev_url = url_for("main.search", q=g.search_form.q.data, page=page - 1) \
+        if page > 1 else None
+    return render_template("main/search.html", posts=posts, next_url=next_url, prev_url=prev_url)
+
