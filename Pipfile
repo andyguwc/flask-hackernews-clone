@@ -46,6 +46,11 @@ environs = "==8.0.0"
 # Add Elasticsearch for text search
 elasticsearch = "==7.9.1"
 
+# Celery for async tasks
+celery = "==4.4.7"
+redis = "==3.5.3"
+
+
 [dev-packages]
 # Testing
 pytest = "==6.0.2"

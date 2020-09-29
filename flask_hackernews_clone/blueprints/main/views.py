@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Public section, including homepage and signup."""
+import os
+
 from flask import (
     Blueprint,
     current_app,
@@ -23,6 +25,7 @@ from flask_hackernews_clone.blueprints.user.models import User
 from flask_hackernews_clone.extensions import login_manager
 from flask_hackernews_clone.utils import flash_errors
 from flask_hackernews_clone.search.forms import SearchForm
+from flask_hackernews_clone.tasks.example import make_file
 
 blueprint = Blueprint("main", __name__, static_folder="static")
 
@@ -130,3 +133,10 @@ def search():
         if page > 1 else None
     return render_template("main/search.html", posts=posts, next_url=next_url, prev_url=prev_url)
 
+
+# This is for testing celery task
+@blueprint.route("/makefile/<string:fname>/<string:content>")
+def makefile(fname, content):
+    fpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), fname)
+    make_file.delay(fpath, content)
+    return f"Find your path at {fpath}"

@@ -1,8 +1,12 @@
-start:
-	@docker-compose up -d database flask-dev elastic
+.PHONY: bootstrap build start stop status restart bash logs shell initdb migratedb upgradedb test lint
 
-rebuild:
-	@docker-compose up -d --build database flask-dev elastic
+bootstrap: stop build start upgradedb
+
+build:
+	@docker-compose build
+
+start:
+	@docker-compose up -d
 
 stop:
 	@docker-compose down

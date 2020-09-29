@@ -51,21 +51,38 @@ services:
       discovery.type: single-node
     restart: unless-stopped
 
-  flask-prod:
-    build:
-      context: .
-      target: production
-      args:
-        <<: *build_args
-    image: "flask_hackernews_clone-production"
-    ports:
-      - "5000:5000"
-    environment:
-      FLASK_ENV: production
-      FLASK_DEBUG: 0
-      LOG_LEVEL: info
-      GUNICORN_WORKERS: 4
+  redis:
+    image: redis:6.0.8-alpine
+    networks:
+      - hacker
+
+  worker:
+    image: "flask_hackernews_clone-development"
+    command: 'pipenv run celery worker -A flask_hackernews_clone.celery_worker.celery --loglevel=info'
+    restart: always
+    depends_on:
+      - database
+      - elastic
+      - redis
+    networks:
+      - hacker
     <<: *default_volumes
+
+  # flask-prod:
+  #   build:
+  #     context: .
+  #     target: production
+  #     args:
+  #       <<: *build_args
+  #   image: "flask_hackernews_clone-production"
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     FLASK_ENV: production
+  #     FLASK_DEBUG: 0
+  #     LOG_LEVEL: info
+  #     GUNICORN_WORKERS: 4
+  #   <<: *default_volumes
 
   # manage:
   #   build:

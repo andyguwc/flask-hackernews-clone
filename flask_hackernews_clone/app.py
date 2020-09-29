@@ -16,6 +16,8 @@ from flask_hackernews_clone.extensions import (
     flask_static_digest,
     login_manager,
     migrate,
+    celery,
+    init_celery
 )
 from elasticsearch import Elasticsearch
 
@@ -37,6 +39,9 @@ def create_app(config_object="flask_hackernews_clone.settings"):
     # since it's not wrapped by a Flask extension
     app.elasticsearch = Elasticsearch([app.config["ELASTICSEARCH_URL"]]) \
         if app.config["ELASTICSEARCH_URL"] else None
+
+    # initialize celery
+    init_celery(celery, app)
     return app
 
 
