@@ -7,7 +7,7 @@ from flask_hackernews_clone.blueprints.main.models import Post
 from flask_hackernews_clone.blueprints.user.forms import EditProfileForm
 from flask_hackernews_clone.blueprints.user.models import User
 
-blueprint = Blueprint("user", __name__, url_prefix="/users", static_folder="static")
+blueprint = Blueprint("user", __name__, url_prefix="/users")
 
 
 @blueprint.route("/<username>")

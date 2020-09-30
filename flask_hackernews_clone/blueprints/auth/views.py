@@ -15,7 +15,7 @@ from flask_hackernews_clone.blueprints.auth.forms import RegisterForm
 from flask_hackernews_clone.blueprints.user.models import User
 from flask_hackernews_clone.utils import flash_errors
 
-blueprint = Blueprint("auth", __name__, static_folder="static")
+blueprint = Blueprint("auth", __name__)
 
 
 @blueprint.route("/logout/")

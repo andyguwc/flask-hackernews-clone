@@ -27,7 +27,7 @@ from flask_hackernews_clone.utils import flash_errors
 from flask_hackernews_clone.search.forms import SearchForm
 from flask_hackernews_clone.tasks.example import make_file
 
-blueprint = Blueprint("main", __name__, static_folder="static")
+blueprint = Blueprint("main", __name__)
 
 
 @login_manager.user_loader

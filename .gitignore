@@ -58,3 +58,5 @@ env/
 *.db
 
 dev/
+
+__pychache__

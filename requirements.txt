@@ -45,3 +45,6 @@ elasticsearch==7.9.1
 # Celery for async tasks
 celery==4.4.7
 redis==3.5.3
+
+# Pillow for image formatting
+pillow==7.2.0

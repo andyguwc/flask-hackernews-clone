@@ -1,10 +1,8 @@
+# -*- coding: utf-8 -*-
 from flask import current_app
 
 from flask_hackernews_clone.extensions import celery
 
-@celery.task
-def dummy_task():
-    return "OK"
 
 @celery.task
 def make_file(fname, content):

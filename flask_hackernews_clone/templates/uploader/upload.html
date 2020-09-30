@@ -1,0 +1,9 @@
+{% extends "base/layout.html" %}
+{% block content %}
+<h1>File Upload</h1>
+<form method="POST" action="" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    <p>{{ form.image_file(placeholder="File") }}</p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}
