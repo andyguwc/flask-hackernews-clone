@@ -14,10 +14,9 @@ RUN apt-get install -y \
     && apt-get -y autoclean
 
 WORKDIR /app
-COPY ["Pipfile", "shell_scripts/auto_pipenv.sh", "./"]
-RUN pip install pipenv
-
-COPY . .
+COPY requirements.txt requirements.txt
+COPY requirements-dev.txt requirements-dev.txt
+COPY package.json package.json
 
 RUN useradd -m sid
 RUN chown -R sid:sid /app
@@ -27,14 +26,16 @@ RUN npm install
 
 # ================================= DEVELOPMENT ================================
 FROM base AS development
-RUN pipenv install --dev
+RUN pip install --user -r requirements-dev.txt
+COPY . .
 EXPOSE 2992
 EXPOSE 5000
-CMD [ "pipenv", "run", "npm", "start" ]
+CMD [ "npm", "start" ]
 
 # ================================= PRODUCTION =================================
 FROM base AS production
-RUN pipenv install
+RUN pip install --user -r requirements.txt
+COPY . .
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisord_programs /etc/supervisor/conf.d
 EXPOSE 5000
@@ -43,5 +44,6 @@ CMD ["-c", "/etc/supervisor/supervisord.conf"]
 
 # =================================== MANAGE ===================================
 FROM base AS manage
-COPY --from=development /home/sid/.local/share/virtualenvs/ /home/sid/.local/share/virtualenvs/
-ENTRYPOINT [ "pipenv", "run", "flask" ]
+RUN pip install --user -r requirements-dev.txt
+COPY . .
+ENTRYPOINT [ "flask" ]

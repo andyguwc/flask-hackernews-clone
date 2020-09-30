@@ -44,8 +44,7 @@ Run the following commands to bootstrap your environment if you are unable to ru
 
 ```bash
 cd flask_hackernews_clone
-pipenv install --dev
-pipenv shell
+pip install -r requirements-dev.txt
 npm install
 npm start  # run the webpack dev server and flask server using concurrently
 ```

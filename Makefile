@@ -23,19 +23,19 @@ logs:
 	@docker-compose logs --follow 
 
 shell:
-	@docker-compose run --rm flask-dev pipenv run flask shell
+	@docker-compose run --rm flask-dev flask shell
 
 initdb:
-	@docker-compose run --rm flask-dev pipenv run flask db init
+	@docker-compose run --rm flask-dev flask db init
 
 migratedb:
-	@docker-compose run --rm flask-dev pipenv run flask db migrate
+	@docker-compose run --rm flask-dev flask db migrate
 
 upgradedb:
-	@docker-compose run --rm flask-dev pipenv run flask db upgrade
+	@docker-compose run --rm flask-dev flask db upgrade
 
 test:
-	@docker-compose run --rm flask-dev pipenv run flask test
+	@docker-compose run --rm flask-dev flask test
 
 lint:
-	@docker-compose run --rm flask-dev pipenv run flask lint
+	@docker-compose run --rm flask-dev flask lint

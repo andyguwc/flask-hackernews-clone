@@ -1,0 +1,10 @@
+.notes
+
+.env
+dev/
+.venv
+env/
+venv/
+ENV/
+
+node_modules

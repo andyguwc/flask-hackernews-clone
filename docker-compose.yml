@@ -8,7 +8,6 @@ x-default-volumes: &default_volumes
   volumes:
     - ./:/app
     - node-modules:/app/node_modules
-
 services:
   database:
     image: postgres:10.6
@@ -29,7 +28,7 @@ services:
       target: development
       args:
         <<: *build_args
-    image: "flask_hackernews_clone-development"
+    image: "flask_hackernews_clone-development:latest"
     ports:
       - "5000:5000"
       - "2992:2992"
@@ -58,7 +57,7 @@ services:
 
   worker:
     image: "flask_hackernews_clone-development"
-    command: 'pipenv run celery worker -A flask_hackernews_clone.celery_worker.celery --loglevel=info'
+    command: 'celery worker -A flask_hackernews_clone.celery_worker.celery --loglevel=info'
     restart: always
     depends_on:
       - database
