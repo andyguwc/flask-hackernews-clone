@@ -1,0 +1,14 @@
+{% extends "base/layout.html" %}
+{% block content %}
+
+<section class="hero is-primary is-fullheight-with-navbar">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title is-size-1 has-text-centered">Upload Progress for Task {{ task_id }}</h1>
+            <p class="subtitle has-text-centered" id="progress-title"></p>
+        </div>
+        <button id="start-bg-job" data-status_url="{{ url_for('uploader.task_status', task_id=task_id) }}">Get Task Progress</button>
+    </div>
+</section>
+
+{% endblock %}

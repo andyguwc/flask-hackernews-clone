@@ -35,3 +35,6 @@ MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'media'))
 IMAGES_DIR = os.path.join(MEDIA_ROOT, 'images')
 if not os.path.exists(MEDIA_ROOT) or not os.path.exists(IMAGES_DIR):
     os.makedirs(IMAGES_DIR)
+
+MAX_CONTENT_LENGTH = 2 * 1024 * 1024
+UPLOAD_EXTENSIONS = ['.jpg', '.png', '.gif']

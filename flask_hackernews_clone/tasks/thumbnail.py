@@ -3,6 +3,7 @@ import os
 
 from flask import current_app
 from PIL import Image
+from zipfile import ZipFile
 
 from flask_hackernews_clone import settings
 from flask_hackernews_clone.extensions import celery

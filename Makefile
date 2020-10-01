@@ -3,7 +3,7 @@
 bootstrap: stop build start upgradedb
 
 build:
-	@docker-compose build
+	@docker-compose build --force-rm
 
 start:
 	@docker-compose up -d
