@@ -1,25 +1,29 @@
 {% extends "base/layout.html" %}
 {% block content %}
-<h1>File Upload</h1>
-{% if form %}
-<form method="POST" action="" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    <p>{{ form.image_file(placeholder="File") }}</p>
-    <p>{{ form.submit() }}</p>
-</form>
-{% endif %}
 
-{% if task_id %}
-<div class="hero-body">
-    <div class="container">
-        <p class="subtitle has-text-centered" id="progress-title"></p>
-        <button id="start-progress-check" data-status_url="{{ url_for('uploader.task_status', task_id=task_id) }}">Check Progress</button>
+<div class="container-narrow">
+    <h2 class="mt-5">Upload an Image for Thumbnailer</h2>
+    <br/>
+    {% if form %}
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <p>{{ form.image_file(placeholder="File") }}</p>
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
+
+    {% if task_id %}
+    <div class="hero-body">
+        <div class="container">
+            <p class="subtitle has-text-centered" id="progress-title"></p>
+            <button id="start-progress-check" data-status_url="{{ url_for('uploader.task_status', task_id=task_id) }}">Check Progress</button>
+        </div>
     </div>
+    <script>
+        var progressButton = document.getElementById('start-progress-check');
+        progressButton.click();
+    </script>
+    {% endif %}
 </div>
-<script>
-    var progressButton = document.getElementById('start-progress-check');
-    progressButton.click();
-</script>
-{% endif %}
 
 {% endblock %}

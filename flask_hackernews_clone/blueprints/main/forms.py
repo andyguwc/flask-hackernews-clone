@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Public forms."""
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, TextAreaField
+from wtforms import PasswordField, StringField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Length
 
 from flask_hackernews_clone.blueprints.user.models import User
@@ -42,10 +42,8 @@ class LoginForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField("Title", validators=[Length(0, 80)])
     body = TextAreaField("Body")
-    submit = SubmitField("Submit")
 
 
 class EditPostForm(FlaskForm):
     title = StringField("Title", validators=[Length(0, 80)])
     body = TextAreaField("Body")
-    submit = SubmitField("Edit")
